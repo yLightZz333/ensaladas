@@ -1,0 +1,66 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
+}
+
+body {
+  @apply bg-white text-zinc-900 font-sans antialiased;
+}
+
+.section-container {
+  @apply max-w-5xl mx-auto px-6 py-20 md:py-32;
+}
+
+.headline {
+  @apply font-sans text-4xl md:text-7xl font-extrabold leading-[1.1] tracking-tight text-zinc-900;
+}
+
+.subheadline {
+  @apply text-lg md:text-2xl text-zinc-500 font-medium leading-relaxed;
+}
+
+.btn-primary {
+  @apply bg-emerald-600 hover:bg-emerald-500 text-white font-extrabold py-5 px-10 rounded-2xl shadow-xl shadow-emerald-200/50 transition-all duration-300 transform hover:scale-[1.02] active:scale-95 text-center uppercase tracking-wider;
+}
+
+.card {
+  @apply bg-white border border-zinc-100 rounded-[2.5rem] p-10 shadow-sm;
+}
+
+.bullet-item {
+  @apply flex items-start gap-4 text-zinc-600 text-lg;
+}
+
+.bullet-icon {
+  @apply w-7 h-7 text-emerald-500 shrink-0 mt-0.5;
+}
+
+.highlight {
+  @apply text-emerald-600 font-bold;
+}
+
+.divider {
+  @apply h-px bg-zinc-100 w-full my-16;
+}
+
+.tag {
+  @apply inline-block bg-emerald-50 text-emerald-700 px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-widest mb-6;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-zinc-50;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-emerald-100 rounded-full;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  @apply bg-emerald-200;
+}
