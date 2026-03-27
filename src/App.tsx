@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 import { motion } from "motion/react";
 import { 
   CheckCircle2, 
@@ -14,22 +15,44 @@ import {
   AlertCircle,
   HelpCircle,
   Users,
-  Award
+  Award,
+  MessageCircle,
+  TrendingDown,
+  ShoppingBag,
+  Flame,
+  Timer,
+  XCircle
 } from "lucide-react";
 
 export default function App() {
+  const [timeLeft, setTimeLeft] = useState(600); // 10 minutes in seconds
+
+  useEffect(() => {
+    if (timeLeft <= 0) return;
+    const timer = setInterval(() => {
+      setTimeLeft(prev => prev - 1);
+    }, 1000);
+    return () => clearInterval(timer);
+  }, [timeLeft]);
+
+  const formatTime = (seconds: number) => {
+    const mins = Math.floor(seconds / 60);
+    const secs = seconds % 60;
+    return `${mins}:${secs.toString().padStart(2, '0')}`;
+  };
+
   const scrollToOffer = () => {
     document.getElementById('offer')?.scrollIntoView({ behavior: 'smooth' });
   };
 
   return (
-    <div className="min-h-screen selection:bg-emerald-100 selection:text-emerald-900">
+    <div className="min-h-screen selection:bg-emerald-100 selection:text-emerald-900 font-sans">
       {/* 1. TOP BAR / URGENCY */}
-      <div className="bg-zinc-900 text-white text-center py-3 px-4 text-[10px] md:text-xs font-bold uppercase tracking-[0.2em]">
-        ⚠️ Oferta por tiempo limitado: <span className="text-emerald-400">Solo 17 cupos disponibles</span> con 75% de descuento
+      <div className="bg-red-600 text-white text-center py-2 px-4 text-[10px] md:text-xs font-bold uppercase tracking-[0.2em] sticky top-0 z-50">
+        ⚠️ ATENCIÓN: Esta oferta expira en <span className="font-mono">{formatTime(timeLeft)}</span> minutos
       </div>
 
-      {/* 2. HERO SECTION */}
+      {/* 2. HERO SECTION (Headline + Subheadline + CTA) */}
       <header className="section-container text-center space-y-10 pt-16 md:pt-24">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -37,19 +60,19 @@ export default function App() {
           transition={{ duration: 0.8 }}
           className="space-y-6"
         >
-          <span className="tag">Método Ensaladas Inteligentes 7D</span>
-          <h1 className="headline max-w-4xl mx-auto">
-            ¿Y si pudieras perder hasta <span className="text-emerald-600">5kg en tus primeros 7 días</span> sin pisar un gimnasio?
+          <span className="tag bg-red-50 text-red-600 border border-red-100">¡ALERTA PARA MUJERES!</span>
+          <h1 className="headline max-w-5xl mx-auto text-balance">
+            Si estás comiendo ensalada y <span className="text-red-600 underline decoration-4 underline-offset-8">NO bajas de peso</span>… esto te va a sorprender
           </h1>
         </motion.div>
 
         <motion.p 
-          className="subheadline max-w-3xl mx-auto"
+          className="subheadline max-w-3xl mx-auto text-zinc-600"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.4 }}
         >
-          Descubre la forma más rápida y deliciosa de deshinchar tu cuerpo, regular tu intestino y recuperar tu energía vital sin pasar hambre ni seguir dietas aburridas.
+          Descubre el <span className="font-bold text-zinc-900">error fatal</span> con las ensaladas que está bloqueando tu quema de grasa y cómo solucionarlo en los próximos 7 días.
         </motion.p>
 
         <motion.div
@@ -58,51 +81,54 @@ export default function App() {
           transition={{ delay: 0.6 }}
           className="pt-6"
         >
-          <button onClick={scrollToOffer} className="btn-primary flex items-center gap-3 mx-auto group">
-            QUIERO EMPEZAR HOY <ArrowRight className="w-6 h-6 group-hover:translate-x-1 transition-transform" />
+          <button onClick={scrollToOffer} className="btn-primary flex items-center gap-3 mx-auto group bg-emerald-600 hover:bg-emerald-500 text-white font-black py-6 px-12 rounded-2xl shadow-2xl shadow-emerald-200/50 transition-all duration-300 transform hover:scale-[1.05] active:scale-95 text-center uppercase tracking-wider text-xl">
+            SÍ, QUIERO EL MÉTODO AHORA <ArrowRight className="w-6 h-6 group-hover:translate-x-1 transition-transform" />
           </button>
-          <div className="flex flex-wrap items-center justify-center gap-6 mt-8 text-zinc-400 text-xs font-medium">
-            <span className="flex items-center gap-2"><ShieldCheck className="w-4 h-4 text-emerald-500" /> Pago 100% Seguro</span>
-            <span className="flex items-center gap-2"><Clock className="w-4 h-4 text-emerald-500" /> Acceso Inmediato</span>
-            <span className="flex items-center gap-2"><Award className="w-4 h-4 text-emerald-500" /> Garantía de Satisfacción</span>
-          </div>
+          <p className="mt-4 text-zinc-400 text-xs font-bold uppercase tracking-widest">👇 Solo 17 cupos disponibles con descuento hoy</p>
         </motion.div>
 
         <motion.div 
           initial={{ opacity: 0, y: 40 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.8, duration: 1 }}
-          className="relative mt-20 max-w-5xl mx-auto"
+          className="relative mt-20 max-w-4xl mx-auto"
         >
           <div className="absolute -inset-4 bg-emerald-100/50 blur-3xl rounded-[3rem] -z-10" />
-          <img 
-            src="https://picsum.photos/seed/salad-hero/1200/700" 
-            alt="Ensaladas Saludables" 
-            className="w-full h-auto rounded-[2.5rem] shadow-2xl border-8 border-white object-cover aspect-[16/9]"
-            referrerPolicy="no-referrer"
-          />
+          <div className="relative rounded-[2.5rem] overflow-hidden shadow-2xl border-8 border-white">
+            <img 
+              src="https://picsum.photos/seed/salad-warning/1200/700" 
+              alt="El error de las ensaladas" 
+              className="w-full h-auto object-cover aspect-[16/9]"
+              referrerPolicy="no-referrer"
+            />
+            <div className="absolute inset-0 bg-black/20 flex items-center justify-center">
+              <div className="w-20 h-20 bg-white/90 rounded-full flex items-center justify-center shadow-2xl cursor-pointer hover:scale-110 transition-transform">
+                <div className="w-0 h-0 border-t-[12px] border-t-transparent border-l-[20px] border-l-emerald-600 border-b-[12px] border-b-transparent ml-2" />
+              </div>
+            </div>
+          </div>
         </motion.div>
       </header>
 
-      {/* 3. PAIN POINTS / IDENTIFICATION */}
+      {/* 4. PERGUNTAS (IDENTIFICACIÓN) */}
       <section className="bg-zinc-50 py-32">
         <div className="section-container">
           <div className="text-center space-y-4 mb-20">
-            <span className="text-emerald-600 font-bold text-sm uppercase tracking-widest">¿Te sientes identificada?</span>
-            <h2 className="text-3xl md:text-5xl font-extrabold tracking-tight">Si respondes "SÍ" a una de estas preguntas, esto es para ti...</h2>
+            <span className="text-emerald-600 font-bold text-sm uppercase tracking-widest">¿Te ha pasado esto?</span>
+            <h2 className="text-3xl md:text-5xl font-extrabold tracking-tight">Si respondes "SÍ" a una de estas preguntas, estás cometiendo el "Error Silencioso"...</h2>
           </div>
           
           <div className="grid md:grid-cols-2 gap-6">
             {[
-              "¿Te despiertas sintiéndote pesada e hinchada incluso después de dormir?",
-              "¿Tu ropa favorita ya no te queda como antes y te genera frustración?",
-              "¿Sufres de antojos incontrolables de dulce o carbohidratos por la tarde?",
-              "¿Sientes que tu metabolismo está 'bloqueado' y nada de lo que haces funciona?",
-              "¿Tu digestión es lenta y vives con esa molesta sensación de inflamación?",
-              "¿Te falta energía para terminar el día y solo quieres llegar a la cama?"
+              "¿Comes ensaladas todos los días pero tu abdomen sigue hinchado?",
+              "¿Sientes que tu metabolismo está 'dormido' y nada te hace bajar?",
+              "¿Te privas de lo que te gusta y aun así la báscula no se mueve?",
+              "¿Sufres de ansiedad por comer dulce apenas terminas tu ensalada?",
+              "¿Tu ropa te aprieta cada vez más aunque 'te cuides'?",
+              "¿Te sientes sin energía y con el intestino perezoso?"
             ].map((question, i) => (
               <div key={i} className="flex items-center gap-4 bg-white p-6 rounded-2xl shadow-sm border border-zinc-100">
-                <HelpCircle className="w-6 h-6 text-emerald-500 shrink-0" />
+                <AlertCircle className="w-6 h-6 text-red-500 shrink-0" />
                 <p className="text-zinc-700 font-medium">{question}</p>
               </div>
             ))}
@@ -110,70 +136,75 @@ export default function App() {
         </div>
       </section>
 
-      {/* 4. OBJECTION BREAKING / STORY */}
+      {/* 5. STORY EMOCIONAL */}
       <section className="section-container">
         <div className="grid md:grid-cols-2 gap-20 items-center">
           <div className="space-y-8">
-            <h2 className="headline text-3xl md:text-5xl">No es tu culpa... <span className="text-emerald-600 italic">es el método que te vendieron.</span></h2>
-            <p className="text-zinc-600 text-lg leading-relaxed">
-              La industria de las dietas quiere que creas que para bajar de peso necesitas sufrir, pasar hambre y contar cada caloría. Pero la realidad es que <span className="highlight">tu cuerpo está inflamado</span>, no solo con sobrepeso.
-            </p>
-            <p className="text-zinc-600 text-lg leading-relaxed">
-              Cuando aprendes a combinar los alimentos de forma inteligente, tu metabolismo se activa por sí solo. No necesitas comer menos, necesitas <span className="highlight">comer mejor</span>.
-            </p>
-            <div className="card bg-emerald-50 border-emerald-100 space-y-6">
-              <div className="flex items-center gap-4">
-                <img src="https://picsum.photos/seed/user-story/120/120" className="w-16 h-16 rounded-2xl object-cover border-2 border-white shadow-md" alt="Testimonio" referrerPolicy="no-referrer" />
-                <div>
-                  <p className="font-bold text-zinc-900">Elena M.</p>
-                  <p className="text-xs text-emerald-700 font-bold">Bajó 4.5kg en 7 días</p>
-                </div>
-              </div>
-              <p className="italic text-zinc-700 leading-relaxed">
-                "Estaba cansada de las dietas que me dejaban sin energía. Con el Método Ensaladas Inteligentes, no solo perdí peso, sino que mi piel mejoró y mi digestión es otra. ¡Es increíble lo fácil que es!"
+            <span className="tag">La Historia de María</span>
+            <h2 className="text-3xl md:text-5xl font-extrabold tracking-tight">"Pensé que comer sano me estaba matando..."</h2>
+            <div className="space-y-6 text-zinc-600 text-lg leading-relaxed">
+              <p>
+                María, madre de 38 años, estaba desesperada. <span className="text-zinc-900 font-bold">Comía lechuga y pollo a la plancha todos los días</span>, pero cada mañana se despertaba más hinchada.
+              </p>
+              <p>
+                Evitaba las fiestas para no caer en la tentación, lloraba frente al espejo porque su vestido favorito ya no cerraba, y lo peor: <span className="text-zinc-900 font-bold">sentía que su cuerpo la había traicionado.</span>
+              </p>
+              <p>
+                Hasta que un día, un especialista le reveló la verdad: <span className="text-emerald-600 font-bold italic">"María, tus ensaladas están bloqueando tu metabolismo porque te faltan las enzimas activadoras."</span>
+              </p>
+              <p>
+                En solo 7 días aplicando el <span className="highlight">Método Ensaladas Inteligentes</span>, María no solo bajó 4.8kg, sino que recuperó la sonrisa que había perdido hace años.
               </p>
             </div>
           </div>
           <div className="relative">
             <div className="absolute -inset-4 bg-emerald-100/30 blur-2xl rounded-full" />
-            <img 
-              src="https://picsum.photos/seed/transformation/600/800" 
-              className="rounded-[2.5rem] shadow-2xl relative z-10" 
-              alt="Transformación" 
-              referrerPolicy="no-referrer"
-            />
+            <div className="relative card p-4 rotate-2">
+              <img 
+                src="https://picsum.photos/seed/maria-transformation/600/800" 
+                className="rounded-[2rem] shadow-2xl" 
+                alt="Transformación de María" 
+                referrerPolicy="no-referrer"
+              />
+              <div className="absolute bottom-10 -left-10 bg-white p-6 rounded-2xl shadow-2xl border border-zinc-100 max-w-[200px] -rotate-6">
+                <div className="flex gap-1 text-amber-400 mb-2">
+                  {[...Array(5)].map((_, i) => <Star key={i} className="w-4 h-4 fill-current" />)}
+                </div>
+                <p className="text-xs font-bold text-zinc-900">"Bajé 2 tallas en una semana. ¡No lo puedo creer!"</p>
+              </div>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* 5. UNIQUE MECHANISM / HOW IT WORKS */}
+      {/* 6. QUEBRA DE CRENÇA + 7. MECANISMO ÚNICO */}
       <section className="bg-zinc-900 text-white py-32 overflow-hidden relative">
         <div className="absolute top-0 right-0 w-96 h-96 bg-emerald-500/10 blur-[120px] rounded-full -translate-y-1/2 translate-x-1/2" />
         <div className="section-container relative z-10">
           <div className="text-center space-y-6 mb-20">
-            <span className="text-emerald-400 font-bold text-sm uppercase tracking-[0.2em]">El Mecanismo Único</span>
-            <h2 className="text-3xl md:text-6xl font-extrabold tracking-tight">¿Por qué las "Ensaladas Inteligentes" funcionan?</h2>
-            <p className="text-zinc-400 text-lg max-w-2xl mx-auto">
-              No son simples ensaladas. Es una fórmula precisa de macronutrientes y enzimas que reprograman tu metabolismo.
+            <span className="text-emerald-400 font-bold text-sm uppercase tracking-[0.2em]">Por qué esto es diferente</span>
+            <h2 className="text-3xl md:text-6xl font-extrabold tracking-tight">El Secreto de la "Chispa Metabólica"</h2>
+            <p className="text-zinc-400 text-lg max-w-3xl mx-auto">
+              La mayoría de las ensaladas son solo "fibra muerta". El Método Ensaladas Inteligentes utiliza <span className="text-white font-bold">Combinaciones Enzimáticas</span> que obligan a tu cuerpo a usar la grasa como combustible.
             </p>
           </div>
 
           <div className="grid md:grid-cols-3 gap-10">
             {[
               { 
+                icon: Flame, 
+                title: "Activación Termogénica", 
+                desc: "Combinamos vegetales específicos con grasas saludables que elevan la temperatura interna de tus células." 
+              },
+              { 
+                icon: TrendingDown, 
+                title: "Bloqueo de Insulina", 
+                desc: "Nuestras recetas evitan los picos de azúcar que te hacen acumular grasa abdominal, incluso comiendo sano." 
+              },
+              { 
                 icon: Zap, 
-                title: "Desbloqueo Metabólico", 
-                desc: "Ingredientes específicos que activan las hormonas responsables de quemar grasa acumulada." 
-              },
-              { 
-                icon: Heart, 
-                title: "Efecto Anti-Inflamatorio", 
-                desc: "Elimina las toxinas que causan el inchaço y la retención de líquidos desde el primer día." 
-              },
-              { 
-                icon: Utensils, 
-                title: "Saciedad Prolongada", 
-                desc: "Combinaciones que mantienen tus niveles de azúcar estables, eliminando la ansiedad por el dulce." 
+                title: "Efecto Saciante Real", 
+                desc: "No pasas hambre porque usamos prebióticos que calman la hormona del hambre (Grelina) por hasta 6 horas." 
               }
             ].map((item, i) => (
               <div key={i} className="bg-white/5 border border-white/10 p-10 rounded-[2rem] space-y-6 hover:bg-white/10 transition-colors">
@@ -188,108 +219,28 @@ export default function App() {
         </div>
       </section>
 
-      {/* 6. BENEFITS LIST */}
+      {/* 8. PROVA SOCIAL (FORTE) */}
       <section className="section-container">
-        <div className="grid md:grid-cols-2 gap-20 items-center">
-          <div className="order-2 md:order-1">
-            <img 
-              src="https://picsum.photos/seed/benefits/600/600" 
-              className="rounded-[2.5rem] shadow-xl" 
-              alt="Beneficios" 
-              referrerPolicy="no-referrer"
-            />
-          </div>
-          <div className="space-y-10 order-1 md:order-2">
-            <h2 className="headline text-3xl md:text-5xl">Lo que vas a lograr en <span className="text-emerald-600">solo una semana:</span></h2>
-            <div className="space-y-6">
-              {[
-                "Pérdida de peso real y visible (hasta 5kg).",
-                "Vientre plano y sin esa molesta sensación de globo.",
-                "Digestión ligera y regularidad intestinal.",
-                "Piel más luminosa y libre de toxinas.",
-                "Energía constante durante todo el día.",
-                "Control total sobre tus antojos y ansiedad."
-              ].map((benefit, i) => (
-                <div key={i} className="bullet-item">
-                  <CheckCircle2 className="bullet-icon" />
-                  <span className="font-medium">{benefit}</span>
-                </div>
-              ))}
-            </div>
-            <button onClick={scrollToOffer} className="btn-primary w-full md:w-auto">
-              QUIERO ESTOS RESULTADOS
-            </button>
-          </div>
+        <div className="text-center mb-20 space-y-4">
+          <h2 className="text-3xl md:text-5xl font-extrabold tracking-tight">Resultados Reales de WhatsApp</h2>
+          <p className="text-zinc-500">Lo que nuestras alumnas están compartiendo en el grupo privado:</p>
         </div>
-      </section>
-
-      {/* 7. WHAT YOU GET / BONUSES */}
-      <section className="bg-zinc-50 py-32">
-        <div className="section-container">
-          <div className="text-center space-y-6 mb-20">
-            <h2 className="text-3xl md:text-6xl font-extrabold tracking-tight">Todo lo que recibes al unirte hoy:</h2>
-            <p className="text-zinc-500 text-lg">Un sistema completo diseñado para que no puedas fallar.</p>
-          </div>
-
-          <div className="grid md:grid-cols-2 gap-10">
-            <div className="card space-y-8">
-              <div className="aspect-video rounded-3xl overflow-hidden shadow-inner bg-zinc-100">
-                <img src="https://picsum.photos/seed/ebook-main/800/450" className="w-full h-full object-cover" alt="Ebook Principal" referrerPolicy="no-referrer" />
-              </div>
-              <div className="space-y-4">
-                <h3 className="text-3xl font-bold">Ebook: Método Ensaladas Inteligentes 7D</h3>
-                <p className="text-zinc-600">Más de 50 recetas exclusivas con la fórmula exacta para desinflamar tu cuerpo y activar tu metabolismo.</p>
-                <div className="flex items-center gap-2 text-emerald-600 font-bold">
-                  <CheckCircle2 className="w-5 h-5" /> Valor Real: $29.00
-                </div>
-              </div>
-            </div>
-
-            <div className="space-y-6">
-              {[
-                { icon: Clock, title: "Planificador de 7 Días", desc: "Sabrás exactamente qué comer en cada momento del día.", val: "$15.00" },
-                { icon: Smartphone, title: "Lista de Compras Inteligente", desc: "Ahorra tiempo y dinero en el supermercado con esta guía.", val: "$10.00" },
-                { icon: Gift, title: "BONO 1: Guía de Jugos Detox", desc: "Potencia tu quema de grasa con estas bebidas naturales.", val: "$12.00" },
-                { icon: Heart, title: "BONO 2: Comunidad VIP", desc: "Acceso a nuestro grupo exclusivo de apoyo y motivación.", val: "Invaluable" }
-              ].map((bonus, i) => (
-                <div key={i} className="flex gap-6 p-6 bg-white rounded-[1.5rem] border border-zinc-100 shadow-sm">
-                  <div className="w-12 h-12 bg-emerald-50 text-emerald-600 rounded-xl flex items-center justify-center shrink-0">
-                    <bonus.icon className="w-6 h-6" />
-                  </div>
-                  <div>
-                    <h4 className="font-bold text-zinc-900">{bonus.title} <span className="text-emerald-600 text-xs ml-2">¡GRATIS!</span></h4>
-                    <p className="text-zinc-500 text-sm">{bonus.desc}</p>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* 8. SOCIAL PROOF */}
-      <section className="section-container">
-        <div className="text-center mb-20">
-          <h2 className="text-3xl md:text-5xl font-extrabold tracking-tight">Ellas ya están viviendo la transformación</h2>
-        </div>
-        <div className="grid md:grid-cols-3 gap-8">
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
           {[
-            { name: "Carla R.", text: "En 4 días mi abdomen bajó muchísimo. Me siento ligera y con mucha más energía.", city: "CDMX, México" },
-            { name: "Lucía G.", text: "Las recetas son deliciosas y súper rápidas. No parece que estuviera a dieta.", city: "Bogotá, Colombia" },
-            { name: "Mariana S.", text: "Por fin encontré algo que regula mi intestino. Bajé 3kg en la primera semana.", city: "Lima, Perú" }
-          ].map((testimonial, i) => (
-            <div key={i} className="card space-y-6">
-              <div className="flex gap-1 text-amber-400">
-                {[...Array(5)].map((_, i) => <Star key={i} className="w-4 h-4 fill-current" />)}
-              </div>
-              <p className="text-zinc-600 italic">"{testimonial.text}"</p>
-              <div className="flex items-center gap-4 pt-4 border-t border-zinc-50">
-                <div className="w-10 h-10 rounded-full bg-emerald-100 flex items-center justify-center font-bold text-emerald-700">
-                  {testimonial.name[0]}
-                </div>
-                <div>
-                  <p className="font-bold text-sm">{testimonial.name}</p>
-                  <p className="text-[10px] text-zinc-400 uppercase tracking-widest">{testimonial.city}</p>
+            { img: "https://picsum.photos/seed/wa1/400/600", text: "¡Chicas! No lo puedo creer, 3kg menos en 4 días y mi abdomen está plano." },
+            { img: "https://picsum.photos/seed/wa2/400/600", text: "Ayer me puse mis jeans favoritos y me quedan sueltos. ¡Gracias!" },
+            { img: "https://picsum.photos/seed/wa3/400/600", text: "Mi esposo me preguntó qué estaba haciendo porque me ve radiante." }
+          ].map((proof, i) => (
+            <div key={i} className="relative group">
+              <div className="absolute -inset-2 bg-emerald-500/10 blur-xl rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity" />
+              <div className="relative bg-white border border-zinc-100 rounded-3xl overflow-hidden shadow-lg">
+                <img src={proof.img} className="w-full aspect-[3/4] object-cover" alt="Prueba Social" referrerPolicy="no-referrer" />
+                <div className="p-6 bg-emerald-50">
+                  <div className="flex items-center gap-2 mb-2">
+                    <MessageCircle className="w-4 h-4 text-emerald-600" />
+                    <span className="text-[10px] font-bold text-emerald-700 uppercase tracking-widest">Chat de Alumnas</span>
+                  </div>
+                  <p className="text-sm text-zinc-700 font-medium italic">"{proof.text}"</p>
                 </div>
               </div>
             </div>
@@ -297,16 +248,95 @@ export default function App() {
         </div>
       </section>
 
-      {/* 9. OFFER SECTION */}
-      <section id="offer" className="bg-emerald-50 py-32">
+      {/* 9. BENEFÍCIOS */}
+      <section className="bg-zinc-50 py-32">
+        <div className="section-container">
+          <div className="grid md:grid-cols-2 gap-20 items-center">
+            <div className="space-y-10">
+              <h2 className="text-3xl md:text-5xl font-extrabold tracking-tight">Tu nueva vida comienza <span className="text-emerald-600">en 7 días:</span></h2>
+              <div className="space-y-6">
+                {[
+                  "Desinflamación abdominal inmediata.",
+                  "Pérdida de peso acelerada (sin efecto rebote).",
+                  "Adiós a la ansiedad por el dulce y carbohidratos.",
+                  "Piel más limpia y radiante.",
+                  "Intestino funcionando como un reloj.",
+                  "Energía inagotable desde que te despiertas."
+                ].map((benefit, i) => (
+                  <div key={i} className="bullet-item">
+                    <CheckCircle2 className="bullet-icon" />
+                    <span className="font-bold text-zinc-800">{benefit}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+            <div className="grid grid-cols-2 gap-4">
+              <img src="https://picsum.photos/seed/b1/300/400" className="rounded-2xl shadow-lg" alt="Beneficio 1" referrerPolicy="no-referrer" />
+              <img src="https://picsum.photos/seed/b2/300/400" className="rounded-2xl shadow-lg mt-8" alt="Beneficio 2" referrerPolicy="no-referrer" />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* 10. APRESENTAÇÃO DO PRODUTO + 11. BÔNUS */}
+      <section className="section-container">
+        <div className="text-center space-y-6 mb-20">
+          <span className="tag">Acceso Completo</span>
+          <h2 className="text-3xl md:text-6xl font-extrabold tracking-tight">Lo que vas a recibir hoy:</h2>
+        </div>
+
+        <div className="grid md:grid-cols-2 gap-10">
+          <div className="card space-y-8 border-emerald-500 border-2">
+            <div className="aspect-video rounded-3xl overflow-hidden shadow-inner bg-zinc-100">
+              <img src="https://picsum.photos/seed/ebook-main/800/450" className="w-full h-full object-cover" alt="Ebook Principal" referrerPolicy="no-referrer" />
+            </div>
+            <div className="space-y-4">
+              <h3 className="text-3xl font-bold">Ebook: Método Ensaladas Inteligentes 7D</h3>
+              <p className="text-zinc-600">La guía maestra con las combinaciones exactas para reprogramar tu metabolismo.</p>
+              <div className="flex items-center gap-2 text-emerald-600 font-bold">
+                <CheckCircle2 className="w-5 h-5" /> Valor Real: $29.00
+              </div>
+            </div>
+          </div>
+
+          <div className="space-y-4">
+            {[
+              { icon: ShoppingBag, title: "BÔNUS 1: Lista de Compras Semanal", desc: "Ahorra tiempo y dinero con los ingredientes exactos.", val: "$15.00" },
+              { icon: Timer, title: "BÔNUS 2: Recetas Quemagrasa en 5 Min", desc: "Para cuando no tienes tiempo pero quieres resultados.", val: "$12.00" },
+              { icon: Zap, title: "BÔNUS 3: Plan Detox de 3 Días", desc: "El 'reset' total para tu organismo.", val: "$10.00" },
+              { icon: Users, title: "BÔNUS 4: Grupo Privado WhatsApp", desc: "Motivación y apoyo diario de otras alumnas.", val: "$47.00" },
+              { icon: AlertCircle, title: "BÔNUS 5: Guía de Errores Fatales", desc: "Lo que te hace engordar sin que te des cuenta.", val: "$19.00" }
+            ].map((bonus, i) => (
+              <div key={i} className="flex gap-4 p-4 bg-white rounded-2xl border border-zinc-100 shadow-sm hover:border-emerald-200 transition-colors">
+                <div className="w-10 h-10 bg-emerald-50 text-emerald-600 rounded-xl flex items-center justify-center shrink-0">
+                  <bonus.icon className="w-5 h-5" />
+                </div>
+                <div className="flex-1">
+                  <h4 className="font-bold text-zinc-900 text-sm">{bonus.title} <span className="text-emerald-600 text-[10px] ml-1">¡GRATIS!</span></h4>
+                  <p className="text-zinc-500 text-xs">{bonus.desc}</p>
+                </div>
+                <div className="text-[10px] text-zinc-300 line-through font-bold">{bonus.val}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* 12. OFERTA + 13. URGÊNCIA */}
+      <section id="offer" className="bg-emerald-50 py-20">
         <div className="section-container max-w-5xl">
+          <div className="text-center mb-12 space-y-4">
+            <h2 className="text-3xl md:text-5xl font-extrabold tracking-tight">Elige tu camino hacia la transformación</h2>
+            <p className="text-red-600 font-bold animate-pulse">⚠️ ¡Últimos cupos con bonos gratuitos disponibles!</p>
+          </div>
+
           <div className="grid md:grid-cols-2 gap-8 items-stretch">
             {/* PLAN 1: STANDARD */}
-            <div className="card border-2 border-zinc-100 shadow-xl space-y-10 relative overflow-hidden p-10 flex flex-col justify-between">
-              <div className="space-y-6">
-                <div className="space-y-2 text-center">
-                  <span className="tag mb-2">Plan Básico</span>
-                  <p className="text-zinc-400 line-through text-xl font-medium">Precio Regular: $29.00 USD</p>
+            <div className="card border-2 border-zinc-100 shadow-xl space-y-4 relative overflow-hidden p-10 flex flex-col justify-between">
+              <div className="space-y-2">
+                <div className="space-y-0 text-center">
+                  <span className="tag mb-1">Plan Básico</span>
+                  <p className="text-zinc-400 line-through text-lg font-medium">Precio Regular: $29.00 USD</p>
                   <div className="flex flex-col items-center">
                     <h3 className="text-6xl font-extrabold text-zinc-900 tracking-tighter">
                       $6.90<span className="text-xl align-top mt-2 ml-1">USD</span>
@@ -314,7 +344,7 @@ export default function App() {
                   </div>
                 </div>
 
-                <div className="divider my-8" />
+                <div className="divider my-2" />
 
                 <div className="space-y-4 text-left">
                   <div className="flex items-center gap-3 text-zinc-600 font-medium text-sm">
@@ -323,16 +353,36 @@ export default function App() {
                   </div>
                   <div className="flex items-center gap-3 text-zinc-600 font-medium text-sm">
                     <CheckCircle2 className="w-5 h-5 text-emerald-500" />
-                    <span>Planificador de 7 Días Paso a Paso</span>
+                    <span>7 Días de Garantía Total</span>
                   </div>
-                  <div className="flex items-center gap-3 text-zinc-600 font-medium text-sm">
-                    <CheckCircle2 className="w-5 h-5 text-emerald-500" />
-                    <span>Todos los Bonos Exclusivos</span>
+                  <div className="flex items-center gap-3 text-red-400 font-medium text-sm italic">
+                    <XCircle className="w-5 h-5 text-red-400" />
+                    <span className="line-through">Planificador de 7 Días</span>
+                  </div>
+                  <div className="flex items-center gap-3 text-red-400 font-medium text-sm italic">
+                    <XCircle className="w-5 h-5 text-red-400" />
+                    <span className="line-through">BÔNUS 1: Lista de Compras Semanal</span>
+                  </div>
+                  <div className="flex items-center gap-3 text-red-400 font-medium text-sm italic">
+                    <XCircle className="w-5 h-5 text-red-400" />
+                    <span className="line-through">BÔNUS 2: Recetas Quemagrasa en 5 Min</span>
+                  </div>
+                  <div className="flex items-center gap-3 text-red-400 font-medium text-sm italic">
+                    <XCircle className="w-5 h-5 text-red-400" />
+                    <span className="line-through">BÔNUS 3: Plan Detox de 3 Días</span>
+                  </div>
+                  <div className="flex items-center gap-3 text-red-400 font-medium text-sm italic">
+                    <XCircle className="w-5 h-5 text-red-400" />
+                    <span className="line-through">BÔNUS 4: Grupo Privado WhatsApp</span>
+                  </div>
+                  <div className="flex items-center gap-3 text-red-400 font-medium text-sm italic">
+                    <XCircle className="w-5 h-5 text-red-400" />
+                    <span className="line-through">BÔNUS 5: Guía de Errores Fatales</span>
                   </div>
                 </div>
               </div>
 
-              <div className="pt-10">
+              <div className="pt-2">
                 <button className="btn-primary w-full text-lg py-5">
                   ELEGIR PLAN BÁSICO
                 </button>
@@ -340,15 +390,15 @@ export default function App() {
             </div>
 
             {/* PLAN 2: PREMIUM (FEATURED) */}
-            <div className="bg-emerald-600 rounded-[2.5rem] shadow-2xl space-y-10 relative overflow-hidden p-10 flex flex-col justify-between text-white border-4 border-emerald-400">
-              <div className="absolute top-0 right-0 bg-white text-emerald-600 px-10 py-2 text-xs font-bold uppercase -rotate-45 translate-x-10 translate-y-6 shadow-md">
+            <div className="bg-emerald-600 rounded-[2.5rem] shadow-2xl space-y-4 relative p-10 flex flex-col justify-between text-white border-4 border-emerald-400 transform scale-105 z-10">
+              <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-emerald-400 text-white px-8 py-2.5 rounded-2xl text-xs font-black uppercase tracking-[0.2em] shadow-xl z-20 whitespace-nowrap border border-emerald-300">
                 Más Popular
               </div>
               
-              <div className="space-y-6">
-                <div className="space-y-2 text-center">
-                  <span className="inline-block bg-white/20 text-white px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-widest mb-2">Plan Premium VIP</span>
-                  <p className="text-emerald-200 line-through text-xl font-medium">Precio Regular: $59.00 USD</p>
+              <div className="space-y-2">
+                <div className="space-y-0 text-center">
+                  <span className="inline-block bg-white/20 text-white px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-widest mb-1">Plan Premium VIP</span>
+                  <p className="text-emerald-200 line-through text-lg font-medium">Precio Regular: $132.00 USD</p>
                   <div className="flex flex-col items-center">
                     <h3 className="text-6xl font-extrabold text-white tracking-tighter">
                       $14.90<span className="text-xl align-top mt-2 ml-1">USD</span>
@@ -356,68 +406,78 @@ export default function App() {
                   </div>
                 </div>
 
-                <div className="h-px bg-white/20 w-full my-8" />
+                <div className="h-px bg-white/20 w-full my-2" />
 
                 <div className="space-y-4 text-left">
                   <div className="flex items-center gap-3 text-emerald-50 font-medium text-sm">
                     <CheckCircle2 className="w-5 h-5 text-white" />
-                    <span>Todo el contenido del Plan Básico</span>
+                    <span>Ebook Método Ensaladas Inteligentes</span>
                   </div>
                   <div className="flex items-center gap-3 text-emerald-50 font-medium text-sm">
                     <CheckCircle2 className="w-5 h-5 text-white" />
-                    <span>BONO: Guía de Jugos Detox VIP</span>
+                    <span>7 Días de Garantía Total</span>
                   </div>
                   <div className="flex items-center gap-3 text-emerald-50 font-medium text-sm">
                     <CheckCircle2 className="w-5 h-5 text-white" />
-                    <span>Acceso Vitalicio a la Comunidad VIP</span>
+                    <span>Planificador de 7 Días</span>
                   </div>
                   <div className="flex items-center gap-3 text-emerald-50 font-medium text-sm">
                     <CheckCircle2 className="w-5 h-5 text-white" />
-                    <span>Soporte Prioritario por WhatsApp</span>
+                    <span>BÔNUS 1: Lista de Compras Semanal</span>
+                  </div>
+                  <div className="flex items-center gap-3 text-emerald-50 font-medium text-sm">
+                    <CheckCircle2 className="w-5 h-5 text-white" />
+                    <span>BÔNUS 2: Recetas Quemagrasa en 5 Min</span>
+                  </div>
+                  <div className="flex items-center gap-3 text-emerald-50 font-medium text-sm">
+                    <CheckCircle2 className="w-5 h-5 text-white" />
+                    <span>BÔNUS 3: Plan Detox de 3 Días</span>
+                  </div>
+                  <div className="flex items-center gap-3 text-emerald-50 font-medium text-sm">
+                    <CheckCircle2 className="w-5 h-5 text-white" />
+                    <span>BÔNUS 4: Grupo Privado WhatsApp</span>
+                  </div>
+                  <div className="flex items-center gap-3 text-emerald-50 font-medium text-sm">
+                    <CheckCircle2 className="w-5 h-5 text-white" />
+                    <span>BÔNUS 5: Guía de Errores Fatales</span>
                   </div>
                 </div>
               </div>
 
-              <div className="pt-10">
-                <button className="bg-white text-emerald-600 hover:bg-emerald-50 font-extrabold py-5 px-10 rounded-2xl shadow-xl transition-all duration-300 transform hover:scale-[1.02] active:scale-95 text-center uppercase tracking-wider w-full text-lg">
-                  ELEGIR PLAN PREMIUM
+              <div className="pt-2 space-y-4">
+                <button className="bg-white text-emerald-600 hover:bg-emerald-50 font-black py-5 px-10 rounded-2xl shadow-xl transition-all duration-300 transform hover:scale-[1.02] active:scale-95 text-center uppercase tracking-wider w-full text-lg">
+                  SÍ, QUIERO EL PLAN VIP
                 </button>
               </div>
             </div>
           </div>
 
-          <div className="flex items-center justify-center gap-4 mt-12">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/b/b5/PayPal.svg" className="h-6 opacity-50" alt="PayPal" />
-            <img src="https://upload.wikimedia.org/wikipedia/commons/5/5e/Visa_Inc._logo.svg" className="h-4 opacity-50" alt="Visa" />
-            <img src="https://upload.wikimedia.org/wikipedia/commons/2/2a/Mastercard-logo.svg" className="h-6 opacity-50" alt="Mastercard" />
-          </div>
-
-          {/* 10. GUARANTEE */}
-          <div className="mt-24 flex flex-col md:flex-row items-center gap-10 text-left bg-white p-10 rounded-[2.5rem] shadow-sm border border-zinc-100">
+          {/* 14. GARANTIA */}
+          <div className="mt-16 flex flex-col md:flex-row items-center gap-10 text-left bg-white p-10 rounded-[2.5rem] shadow-sm border border-zinc-100">
             <div className="w-32 h-32 bg-emerald-50 rounded-full flex items-center justify-center shrink-0 border-4 border-white shadow-lg">
               <ShieldCheck className="w-16 h-16 text-emerald-600" />
             </div>
             <div className="space-y-4">
-              <h4 className="text-2xl font-extrabold text-zinc-900 tracking-tight">Garantía de Satisfacción de 7 Días</h4>
+              <h4 className="text-2xl font-extrabold text-zinc-900 tracking-tight">Garantía "Sin Riesgo" de 7 Días</h4>
               <p className="text-zinc-500 leading-relaxed">
-                Prueba el método completo por 7 días. Si no ves resultados, si no te gustan las recetas o si simplemente decides que no es para ti, te devolvemos el 100% de tu dinero. Sin preguntas, sin complicaciones. Tu inversión está protegida.
+                Estoy tan segura de que el <span className="text-emerald-600 font-bold">Método Ensaladas Inteligentes</span> transformará tu cuerpo que te doy una garantía total. Si en 7 días no ves resultados o simplemente no te gusta, te devuelvo cada centavo. Sin preguntas. El riesgo es todo mío.
               </p>
             </div>
           </div>
         </div>
       </section>
 
-      {/* 11. FAQ (Extra for conversion) */}
+      {/* 15. FAQ */}
       <section className="section-container max-w-3xl">
         <div className="text-center mb-16">
           <h2 className="text-3xl md:text-4xl font-extrabold tracking-tight">Preguntas Frecuentes</h2>
         </div>
         <div className="space-y-4">
           {[
-            { q: "¿Cómo recibo el material?", a: "Inmediatamente después del pago, recibirás un correo con el acceso directo para descargar todo el contenido en formato PDF." },
-            { q: "¿Necesito ingredientes caros?", a: "No. Todas las recetas utilizan ingredientes sencillos que encuentras en cualquier mercado local a precios económicos." },
-            { q: "¿Es seguro el pago?", a: "Totalmente. Utilizamos plataformas de pago con encriptación de nivel bancario para proteger tus datos." },
-            { q: "¿Funciona si no tengo tiempo para cocinar?", a: "Sí. Las recetas están diseñadas para prepararse en menos de 15 minutos, ideales para mujeres con poco tiempo." }
+            { q: "¿Realmente funciona en 7 días?", a: "Sí. El método está diseñado para desinflamar tu organismo y activar enzimas metabólicas desde la primera comida. La mayoría de las alumnas reportan cambios visibles en la báscula y en su ropa en la primera semana." },
+            { q: "¿Cómo recibo el acceso?", a: "Inmediatamente después de tu compra, recibirás un correo electrónico con tus datos de acceso a nuestra plataforma exclusiva y los enlaces de descarga de todos los materiales." },
+            { q: "¿Necesito pasar horas en la cocina?", a: "Para nada. Las recetas están pensadas para mujeres ocupadas. Puedes preparar cualquier plato en menos de 15 minutos con ingredientes que ya tienes en casa." },
+            { q: "¿Es un pago único?", a: "Sí, es un pago único y tendrás acceso de por vida al material y a todas las actualizaciones futuras sin pagar un centavo más." }
           ].map((faq, i) => (
             <details key={i} className="group glass border border-zinc-100 rounded-2xl p-6 cursor-pointer transition-all hover:bg-zinc-50">
               <summary className="flex items-center justify-between font-bold text-zinc-900 list-none">
@@ -439,7 +499,7 @@ export default function App() {
         </div>
         <p className="max-w-2xl mx-auto px-6 leading-relaxed">
           &copy; 2026 Método Ensaladas Inteligentes 7D. Todos los derechos reservados. <br />
-          Aviso Legal: Los resultados pueden variar de persona a persona. Este producto no sustituye el consejo médico profesional.
+          Aviso Legal: Este producto no garantiza resultados específicos. Los testimonios son experiencias individuales. Consulte a su médico antes de iniciar cualquier plan nutricional.
         </p>
         <div className="flex justify-center gap-4 opacity-30 grayscale">
           <img src="https://upload.wikimedia.org/wikipedia/commons/b/b5/PayPal.svg" className="h-4" alt="PayPal" />

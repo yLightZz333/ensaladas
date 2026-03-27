@@ -10,11 +10,19 @@ body {
 }
 
 .section-container {
-  @apply max-w-5xl mx-auto px-6 py-20 md:py-32;
+  @apply max-w-5xl mx-auto px-6 py-16 md:py-24;
 }
 
 .headline {
-  @apply font-sans text-4xl md:text-7xl font-extrabold leading-[1.1] tracking-tight text-zinc-900;
+  @apply font-sans text-4xl md:text-7xl font-extrabold leading-[1.1] tracking-tighter text-zinc-900;
+}
+
+.glass {
+  @apply bg-white/80 backdrop-blur-xl border border-white/20 shadow-xl;
+}
+
+.order-bump {
+  @apply bg-emerald-50 border-2 border-dashed border-emerald-300 p-6 rounded-2xl relative overflow-hidden;
 }
 
 .subheadline {
