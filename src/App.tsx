@@ -26,6 +26,7 @@ import {
 
 export default function App() {
   const [timeLeft, setTimeLeft] = useState(600); // 10 minutes in seconds
+  const [showUpgrade, setShowUpgrade] = useState(false);
 
   useEffect(() => {
     if (timeLeft <= 0) return;
@@ -44,6 +45,125 @@ export default function App() {
   const scrollToOffer = () => {
     document.getElementById('offer')?.scrollIntoView({ behavior: 'smooth' });
   };
+
+  if (showUpgrade) {
+    return (
+      <div className="min-h-screen bg-zinc-900 text-white font-sans flex flex-col items-center">
+        {/* TOP BAR */}
+        <div className="w-full bg-red-600 py-2 text-center text-[10px] font-black tracking-[0.2em] uppercase">
+          ¡DESCUENTO ESPECIAL LIBERADO!
+        </div>
+
+        <div className="max-w-2xl w-full px-4 py-8 md:py-12 flex flex-col items-center space-y-8">
+          {/* ESPERA BADGE */}
+          <div className="bg-red-600 px-6 py-2 rounded-xl font-black text-sm tracking-widest animate-bounce">
+            ¡ESPERA!
+          </div>
+
+          {/* HEADLINE */}
+          <div className="text-center space-y-2">
+            <h1 className="text-2xl md:text-4xl font-black uppercase tracking-tight leading-tight">
+              TENEMOS UN <span className="text-emerald-400">DESCUENTO ESPECIAL</span> PARA UPGRADE DE PLANO
+            </h1>
+          </div>
+
+          {/* UPGRADE CARD */}
+          <div className="bg-white text-zinc-900 rounded-[2.5rem] overflow-hidden shadow-2xl w-full border-4 border-emerald-500">
+            {/* CARD HEADER */}
+            <div className="bg-emerald-600 p-6 text-center text-white space-y-1">
+              <div className="flex justify-center gap-1 mb-2">
+                {[1, 2, 3, 4, 5].map((s) => (
+                  <Star key={s} className="w-3 h-3 fill-white text-white" />
+                ))}
+              </div>
+              <h2 className="text-xl md:text-2xl font-black uppercase tracking-tight">PLAN PREMIUM VIP COMPLETO</h2>
+              <p className="text-[10px] text-emerald-100 font-medium uppercase tracking-widest">El paquete completo para resultados garantizados</p>
+            </div>
+
+            <div className="p-6 md:p-8 space-y-6">
+              {/* PRODUCT IMAGE */}
+              <div className="aspect-video rounded-2xl overflow-hidden shadow-inner bg-zinc-100 border border-zinc-100">
+                <img 
+                  src="https://i.imgur.com/w8uX3Cp.jpeg" 
+                  className="w-full h-full object-cover" 
+                  alt="Premium Bundle" 
+                  referrerPolicy="no-referrer" 
+                />
+              </div>
+
+              {/* PRICE */}
+              <div className="text-center space-y-1">
+                <p className="text-zinc-400 line-through text-xs font-bold uppercase tracking-widest">De $14.90</p>
+                <h3 className="text-6xl font-black text-zinc-900 tracking-tighter">
+                  $10.90<span className="text-xl align-top mt-2 ml-1">USD</span>
+                </h3>
+              </div>
+
+              {/* BENEFITS LIST */}
+              <div className="space-y-3">
+                {[
+                  { title: "EBOOK COMPLETO MÉTODO 7D", desc: "Acceso total a la guía principal con combinaciones probadas." },
+                  { title: "7 DÍAS DE GARANTÍA TOTAL", desc: "Prueba el contenido por 7 días. Si no te gusta, te devolvemos tu dinero." },
+                  { title: "PLANIFICADOR DE 7 DÍAS", desc: "Tu mapa paso a paso para no perderte en el camino." },
+                  { title: "TODOS LOS 5 BÔNUS EXCLUSIVOS", desc: "Lista de compras, recetas rápidas, plan detox y más." },
+                  { title: "ACCESO INMEDIATO", desc: "Recibe tu material inmediatamente después de la confirmación." }
+                ].map((item, i) => (
+                  <div key={i} className="flex items-start gap-3 group">
+                    <div className="mt-1 w-5 h-5 rounded-full bg-emerald-100 flex items-center justify-center shrink-0 group-hover:bg-emerald-500 transition-colors">
+                      <CheckCircle2 className="w-3 h-3 text-emerald-600 group-hover:text-white transition-colors" />
+                    </div>
+                    <div className="space-y-0.5">
+                      <h4 className="font-black text-[11px] uppercase tracking-tight text-zinc-900">{item.title}</h4>
+                      <p className="text-[10px] text-zinc-500 leading-tight">{item.desc}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              {/* CTA BUTTON */}
+              <div className="space-y-4 pt-4">
+                <button className="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-black py-5 rounded-2xl shadow-[0_10px_20px_rgba(16,185,129,0.3)] transition-all duration-300 transform hover:scale-[1.02] active:scale-95 text-center uppercase tracking-widest text-sm md:text-base">
+                  ¡SÍ, QUIERO EL UPGRADE AHORA!
+                </button>
+                
+                <div className="flex flex-col items-center space-y-3">
+                  <div className="flex items-center gap-2 text-[9px] text-zinc-400 font-bold uppercase tracking-widest">
+                    <AlertCircle className="w-3 h-3 text-emerald-500" />
+                    Oferta exclusiva disponible solo en esta página
+                  </div>
+                  
+                  <button 
+                    onClick={() => setShowUpgrade(false)}
+                    className="text-[10px] text-zinc-400 hover:text-zinc-600 font-bold underline underline-offset-4 uppercase tracking-widest transition-colors"
+                  >
+                    No gracias, prefiero el plan básico de $6.90
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* FOOTER INFO */}
+          <div className="flex flex-col items-center space-y-4 pt-4 opacity-50">
+            <div className="flex items-center gap-2 text-[9px] font-bold uppercase tracking-widest">
+              <ShieldCheck className="w-3 h-3" />
+              Pago 100% seguro vía Hotmart
+            </div>
+            <button 
+              onClick={() => {
+                setShowUpgrade(false);
+                window.scrollTo(0, 0);
+              }}
+              className="flex items-center gap-1 text-[9px] font-bold uppercase tracking-widest hover:opacity-100 transition-opacity"
+            >
+              <ArrowRight className="w-3 h-3 rotate-180" />
+              Volver al inicio
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen selection:bg-emerald-100 selection:text-emerald-900 font-sans">
@@ -87,27 +207,6 @@ export default function App() {
           <p className="mt-4 text-zinc-400 text-[10px] font-bold uppercase tracking-widest">👇 Solo 17 cupos disponibles con descuento hoy</p>
         </motion.div>
 
-        <motion.div 
-          initial={{ opacity: 0, y: 40 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.8, duration: 1 }}
-          className="relative mt-8 max-w-4xl mx-auto"
-        >
-          <div className="absolute -inset-4 bg-emerald-100/50 blur-3xl rounded-[3rem] -z-10" />
-          <div className="relative rounded-2xl overflow-hidden shadow-2xl border-4 border-white">
-            <img 
-              src="https://picsum.photos/seed/salad-warning/1200/700" 
-              alt="El error de las ensaladas" 
-              className="w-full h-auto object-cover aspect-[16/9]"
-              referrerPolicy="no-referrer"
-            />
-            <div className="absolute inset-0 bg-black/20 flex items-center justify-center">
-              <div className="w-16 h-16 bg-white/90 rounded-full flex items-center justify-center shadow-2xl cursor-pointer hover:scale-110 transition-transform">
-                <div className="w-0 h-0 border-t-[10px] border-t-transparent border-l-[16px] border-l-emerald-600 border-b-[10px] border-b-transparent ml-1" />
-              </div>
-            </div>
-          </div>
-        </motion.div>
       </header>
 
       {/* 5. PERGUNTAS (IDENTIFICACIÓN) */}
@@ -156,7 +255,7 @@ export default function App() {
           <div className="relative">
             <div className="relative card p-2 rotate-1">
               <img 
-                src="https://picsum.photos/seed/frustration/600/800" 
+                src="https://i.imgur.com/w8uX3Cp.jpeg" 
                 className="rounded-xl shadow-xl" 
                 alt="Transformación emocional" 
                 referrerPolicy="no-referrer"
@@ -208,7 +307,7 @@ export default function App() {
             <div className="relative">
               <div className="card bg-white/5 backdrop-blur-xl border-white/10 p-4">
                 <img 
-                  src="https://picsum.photos/seed/metabolism/600/600" 
+                  src="https://i.imgur.com/PhbbEzf.jpeg" 
                   className="rounded-xl shadow-2xl" 
                   alt="Mecanismo Metabólico" 
                   referrerPolicy="no-referrer"
@@ -229,9 +328,9 @@ export default function App() {
           
           <div className="grid md:grid-cols-3 gap-6">
             {[
-              { name: "Claudia R.", text: "Chicas no lo puedo creer, hoy me pesé y bajé 3 kilos en 5 días. ¡Y sin pasar hambre!", date: "Hoy, 10:45 AM" },
-              { name: "Elena M.", text: "Mi esposo me preguntó qué estaba haciendo porque me ve la cara más delgada. ¡Amo las ensaladas!", date: "Ayer, 8:20 PM" },
-              { name: "Patricia G.", text: "Por fin encontré algo que funciona. Mi digestión cambió por completo. ¡Gracias!", date: "Lunes, 2:15 PM" }
+              { name: "Claudia R.", text: "Chicas no lo puedo creer, hoy me pesé y bajé 3 kilos en 5 días. ¡Y sin pasar hambre!", date: "Hoy, 10:45 AM", image: "https://i.imgur.com/yx0iLMZ.jpeg" },
+              { name: "Elena M.", text: "Mi esposo me preguntó qué estaba haciendo porque me ve la cara más delgada. ¡Amo las ensaladas!", date: "Ayer, 8:20 PM", image: "https://i.imgur.com/55tyS9J.jpeg" },
+              { name: "Patricia G.", text: "Por fin encontré algo que funciona. Mi digestión cambió por completo. ¡Gracias!", date: "Lunes, 2:15 PM", image: "https://i.imgur.com/KJqVVUn.jpeg" }
             ].map((chat, i) => (
               <div key={i} className="bg-white rounded-2xl shadow-lg border border-zinc-100 overflow-hidden">
                 <div className="bg-emerald-600 p-3 flex items-center gap-3">
@@ -242,6 +341,11 @@ export default function App() {
                   </div>
                 </div>
                 <div className="p-4 space-y-2">
+                  {chat.image && (
+                    <div className="rounded-xl overflow-hidden mb-2">
+                      <img src={chat.image} alt={chat.name} className="w-full h-auto" referrerPolicy="no-referrer" />
+                    </div>
+                  )}
                   <div className="bg-zinc-100 p-3 rounded-2xl rounded-tl-none text-xs text-zinc-700 relative">
                     {chat.text}
                     <span className="block text-[9px] text-zinc-400 mt-1 text-right">{chat.date}</span>
@@ -259,7 +363,7 @@ export default function App() {
           <div className="grid md:grid-cols-2 gap-10 items-center">
             <div className="order-2 md:order-1">
               <img 
-                src="https://picsum.photos/seed/happy-woman/600/800" 
+                src="https://i.imgur.com/VjwLioc.jpeg" 
                 className="rounded-2xl shadow-2xl" 
                 alt="Mujer feliz con resultados" 
                 referrerPolicy="no-referrer"
@@ -314,9 +418,8 @@ export default function App() {
               { icon: ShoppingBag, title: "BÔNUS 1: Lista de Compras Semanal", desc: "Ahorra tiempo y dinero con los ingredientes exactos.", val: "$15.00" },
               { icon: Timer, title: "BÔNUS 2: Recetas Quemagrasa en 5 Min", desc: "Para cuando no tienes tiempo pero quieres resultados.", val: "$12.00" },
               { icon: Zap, title: "BÔNUS 3: Plan Detox de 3 Días", desc: "El 'reset' total para tu organismo.", val: "$10.00" },
-              { icon: Users, title: "BÔNUS 4: Grupo Privado WhatsApp", desc: "Motivación y apoyo diario de otras alumnas.", val: "$47.00" },
-              { icon: AlertCircle, title: "BÔNUS 5: Guía de Errores Fatales", desc: "Lo que te hace engordar sin que te des cuenta.", val: "$19.00" },
-              { icon: Flame, title: "BÔNUS 6: Guía de Bebidas Aceleradoras", desc: "Bebidas naturales que queman grasa mientras duermes.", val: "$15.00" }
+              { icon: AlertCircle, title: "BÔNUS 4: Guía de Errores Fatales", desc: "Lo que te hace engordar sin que te des cuenta.", val: "$19.00" },
+              { icon: Flame, title: "BÔNUS 5: Guía de Bebidas Aceleradoras", desc: "Bebidas naturales que queman grasa mientras duermes.", val: "$15.00" }
             ].map((bonus, i) => (
               <div key={i} className="flex gap-3 p-3 bg-white rounded-xl border border-zinc-100 shadow-sm hover:border-emerald-200 transition-colors">
                 <div className="w-8 h-8 bg-emerald-50 text-emerald-600 rounded-lg flex items-center justify-center shrink-0">
@@ -369,9 +472,8 @@ export default function App() {
                     "BÔNUS 1: Lista de Compras Semanal",
                     "BÔNUS 2: Recetas Quemagrasa en 5 Min",
                     "BÔNUS 3: Plan Detox de 3 Días",
-                    "BÔNUS 4: Grupo Privado WhatsApp",
-                    "BÔNUS 5: Guía de Errores Fatales",
-                    "BÔNUS 6: Guía de Bebidas Aceleradoras"
+                    "BÔNUS 4: Guía de Errores Fatales",
+                    "BÔNUS 5: Guía de Bebidas Aceleradoras"
                   ].map((item, i) => (
                     <div key={i} className="flex items-center gap-2 text-red-400 font-medium text-xs italic">
                       <XCircle className="w-4 h-4 text-red-400" />
@@ -382,7 +484,13 @@ export default function App() {
               </div>
 
               <div className="pt-4">
-                <button className="btn-primary w-full text-base py-4">
+                <button 
+                  onClick={() => {
+                    setShowUpgrade(true);
+                    window.scrollTo(0, 0);
+                  }}
+                  className="btn-primary w-full text-base py-4"
+                >
                   ELEGIR PLAN BÁSICO
                 </button>
               </div>
@@ -415,9 +523,8 @@ export default function App() {
                     "BÔNUS 1: Lista de Compras Semanal",
                     "BÔNUS 2: Recetas Quemagrasa en 5 Min",
                     "BÔNUS 3: Plan Detox de 3 Días",
-                    "BÔNUS 4: Grupo Privado WhatsApp",
-                    "BÔNUS 5: Guía de Errores Fatales",
-                    "BÔNUS 6: Guía de Bebidas Aceleradoras"
+                    "BÔNUS 4: Guía de Errores Fatales",
+                    "BÔNUS 5: Guía de Bebidas Aceleradoras"
                   ].map((item, i) => (
                     <div key={i} className="flex items-center gap-2 text-emerald-50 font-medium text-xs">
                       <CheckCircle2 className="w-4 h-4 text-white" />
