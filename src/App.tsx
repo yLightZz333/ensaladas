@@ -84,8 +84,8 @@ export default function App() {
               {/* PRODUCT IMAGE */}
               <div className="aspect-video rounded-2xl overflow-hidden shadow-inner bg-zinc-100 border border-zinc-100">
                 <img 
-                  src="https://i.imgur.com/w8uX3Cp.jpeg" 
-                  className="w-full h-full object-cover" 
+                  src="https://i.imgur.com/o631uGn.png" 
+                  className="w-full h-full object-contain p-4" 
                   alt="Premium Bundle" 
                   referrerPolicy="no-referrer" 
                 />
@@ -201,6 +201,14 @@ export default function App() {
           transition={{ delay: 0.6 }}
           className="pt-2"
         >
+          <div className="max-w-md mx-auto mb-4">
+            <img 
+              src="https://i.imgur.com/o631uGn.png" 
+              alt="Método Ensaladas Inteligentes" 
+              className="w-full h-auto drop-shadow-2xl"
+              referrerPolicy="no-referrer"
+            />
+          </div>
           <button onClick={scrollToOffer} className="btn-primary flex items-center gap-3 mx-auto group">
             SÍ, QUIERO EL MÉTODO AHORA <ArrowRight className="w-6 h-6 group-hover:translate-x-1 transition-transform" />
           </button>
@@ -402,7 +410,7 @@ export default function App() {
         <div className="grid md:grid-cols-2 gap-8">
           <div className="card space-y-6 border-emerald-500 border-2 p-6">
             <div className="aspect-video rounded-2xl overflow-hidden shadow-inner bg-zinc-100">
-              <img src="https://picsum.photos/seed/ebook-main/800/450" className="w-full h-full object-cover" alt="Ebook Principal" referrerPolicy="no-referrer" />
+              <img src="https://i.imgur.com/o631uGn.png" className="w-full h-full object-contain p-4" alt="Ebook Principal" referrerPolicy="no-referrer" />
             </div>
             <div className="space-y-2">
               <h3 className="text-2xl font-bold">Ebook: Método Ensaladas Inteligentes 7D</h3>
