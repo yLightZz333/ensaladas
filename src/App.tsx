@@ -122,7 +122,10 @@ export default function App() {
 
               {/* CTA BUTTON */}
               <div className="space-y-4 pt-4">
-                <button className="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-black py-5 rounded-2xl shadow-[0_10px_20px_rgba(16,185,129,0.3)] transition-all duration-300 transform hover:scale-[1.02] active:scale-95 text-center uppercase tracking-widest text-sm md:text-base">
+                <button 
+                  onClick={() => window.location.href = 'https://pay.hotmart.com/T105130318V?off=h4f0ci90&checkoutMode=10'}
+                  className="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-black py-5 rounded-2xl shadow-[0_10px_20px_rgba(16,185,129,0.3)] transition-all duration-300 transform hover:scale-[1.02] active:scale-95 text-center uppercase tracking-widest text-sm md:text-base"
+                >
                   ¡SÍ, QUIERO EL UPGRADE AHORA!
                 </button>
                 
@@ -133,7 +136,7 @@ export default function App() {
                   </div>
                   
                   <button 
-                    onClick={() => setShowUpgrade(false)}
+                    onClick={() => window.location.href = 'https://pay.hotmart.com/N105126410G?checkoutMode=10'}
                     className="text-[10px] text-zinc-400 hover:text-zinc-600 font-bold underline underline-offset-4 uppercase tracking-widest transition-colors"
                   >
                     No gracias, prefiero el plan básico de $6.90
@@ -543,7 +546,10 @@ export default function App() {
               </div>
 
               <div className="pt-2">
-                <button className="bg-white text-emerald-600 hover:bg-emerald-50 font-black py-4 px-2 rounded-xl shadow-xl transition-all duration-300 transform hover:scale-[1.02] active:scale-95 text-center uppercase tracking-wide w-full text-[13px] whitespace-nowrap">
+                <button 
+                  onClick={() => window.location.href = 'https://pay.hotmart.com/T105130318V?checkoutMode=10'}
+                  className="bg-white text-emerald-600 hover:bg-emerald-500 hover:text-white font-black py-4 px-2 rounded-xl shadow-xl transition-all duration-300 transform hover:scale-[1.02] active:scale-95 text-center uppercase tracking-wide w-full text-[13px] whitespace-nowrap"
+                >
                   SÍ, QUIERO EL PLAN VIP
                 </button>
               </div>
